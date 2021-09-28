@@ -1,0 +1,23 @@
+{
+  "registry-mirrors": [
+    "https://pcamaeo4.mirror.aliyuncs.com"
+  ],
+  "insecure-registries": [
+    "hub.dev.segma.tech",
+    "harbor.test.cisdigital.cn",
+    "hub.d.cisdigital.cn",
+    "harbor.demo.cisdigital.cn",
+    "harbor.zt.cisdigital.cn",
+    "harbor.dev.cisdigital.cn"
+  ],
+  "features": {
+    "buildkit": true
+  },
+  "experimental": false,
+  "builder": {
+    "gc": {
+      "defaultKeepStorage": "20GB",
+      "enabled": true
+    }
+  }
+}

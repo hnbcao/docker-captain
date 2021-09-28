@@ -1,0 +1,95 @@
+kind: Ingress
+apiVersion: extensions/v1beta1
+metadata:
+  labels:
+    segma-app: docker-captain
+  name: docker-captain
+spec:
+  rules:
+    - host: docker-captain.dev.segma.tech
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: docker-captain
+              servicePort: 8080
+---
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    segma-app: docker-captain
+  name: docker-captain
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    segma-app: docker-captain
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  labels:
+    segma-app: docker-captain
+  name: docker-captain
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      segma-app: docker-captain
+  template:
+    metadata:
+      labels:
+        segma-app: docker-captain
+    spec:
+      containers:
+        - name: segma-app
+          image: hub.d.cisdigital.cn/segma-easy-sense/docker-captain:v1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          env:
+            - name: MINIO_ENDPOINT
+              value: "minio.dev.segma.tech"
+            - name: MINIO_ACCESS_KEY_ID
+              value: "AKIAIOSFODNN7EXAMPLESCDI"
+            - name: MINIO_SECRET_ACCESS_KEY
+              value: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+            - name: MINIO_USE_SSL
+              value: 'false'
+            - name: MINIO_BUCKET_NAME
+              value: "easy-sense-algorithm"
+            - name: DOCKER_REGISTRY_USER
+              value: "easysense"
+            - name: DOCKER_REGISTRY_PASSWORD
+              value: "EasySense123"
+            - name: DEBUG_LEVEL
+              value: "info"
+            - name: APP_HOST
+              value: "0.0.0.0"
+            - name: APP_PORT
+              value: '8080'
+          livenessProbe:
+            httpGet:
+              scheme: HTTP
+              path: /healthz
+              port: 8080
+            initialDelaySeconds: 30
+            timeoutSeconds: 30
+          volumeMounts:
+            - mountPath: /var/run/docker.sock
+              name: docker-sock
+            - mountPath: /tmp
+              name: tmp-dir
+      volumes:
+        - name: docker-sock
+          hostPath:
+            path: /var/run/docker.sock
+        - name: tmp-dir
+          hostPath:
+            path: /tmp
+      nodeSelector:
+        "kubernetes.io/os": linux
+---

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./static/jquery-2.1.1.min.js"></script>
+    <script>
+        let ws;
+        const url = 'ws://' + window.location.host + '/api/v1/image/tag/ws';
+
+        function webSocketInit() {
+            if (ws !== undefined && ws.readyState === ws.OPEN) {
+                ws.close();
+            }
+            ws = new WebSocket(url);
+            ws.onmessage = function (msg) {
+                let data = msg.data
+                if (data.length >= 7) {
+                    if (data.substr(0, 15).toUpperCase() === "PROCESS_MESSAGE") {
+                        $("#output").append(data + "\n");
+                    } else {
+                        $("#log-widget").append(data + "\n");
+                    }
+                } else {
+                    $("#log-widget").append(data + "\n");
+                }
+            }
+            ws.onopen = function () {
+                $("#output").append("Socket已打开\n");
+            }
+
+            ws.onclose = function () {
+                $("#output").append("Socket已关闭\n");
+            }
+        }
+
+        function update() {
+            $("#output").html('')
+            $("#log-widget").html('')
+            if (ws.readyState === ws.OPEN) {
+                let source = document.getElementById("source").value;
+                let target = document.getElementById("target").value;
+                let data = {source_image: source, target_image: target};
+                ws.send(JSON.stringify(data));
+            } else {
+                $("#output").append("Socket已关闭，请重新连接\n");
+            }
+        }
+
+        webSocketInit()
+    </script>
+    <style>
+        #output {
+            border: medium double rgba(0, 34, 255, 0.82)
+        }
+        #log-widget {
+            border: medium double rgb(229, 22, 70)
+        }
+    </style>
+</head>
+<body>
+<h3>WebSocket Go</h3>
+<form id="form1" name="form" method="post" action="#">
+    <br/>
+    源镜像: <input type="text" name="source" id="source" size="200"><br/>
+    目标镜像: <input type="text" name="target" id="target" size="200"><br/>
+    <br/>
+    <input type="button" onclick="webSocketInit()" value="重新连接">
+    <p></p><input type="button" onclick="update()" value="上传">
+</form>
+</br>
+<div>状态</div>
+<pre id="output"></pre>
+<div id="happy">日志</div>
+<pre id="log-widget"></pre>
+</body>
+</html>

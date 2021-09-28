@@ -1,0 +1,75 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/image/tag": {
+            "post": {
+                "description": "推送镜像",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "image"
+                ],
+                "summary": "推送镜像",
+                "parameters": [
+                    {
+                        "description": "image info",
+                        "name": "image",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/core.Image"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "core.Image": {
+            "type": "object",
+            "properties": {
+                "source_auth": {
+                    "type": "string"
+                },
+                "source_image": {
+                    "description": "*\n\t *\t镜像名称",
+                    "type": "string"
+                },
+                "source_password": {
+                    "type": "string"
+                },
+                "source_user": {
+                    "type": "string"
+                },
+                "target_auth": {
+                    "type": "string"
+                },
+                "target_image": {
+                    "description": "*\n\t * minioBucketName",
+                    "type": "string"
+                },
+                "target_password": {
+                    "type": "string"
+                },
+                "target_user": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

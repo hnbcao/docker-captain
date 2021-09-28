@@ -1,0 +1,48 @@
+definitions:
+  core.Image:
+    properties:
+      source_auth:
+        type: string
+      source_image:
+        description: "*\n\t *\t镜像名称"
+        type: string
+      source_password:
+        type: string
+      source_user:
+        type: string
+      target_auth:
+        type: string
+      target_image:
+        description: "*\n\t * minioBucketName"
+        type: string
+      target_password:
+        type: string
+      target_user:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /image/tag:
+    post:
+      consumes:
+      - application/json
+      description: 推送镜像
+      parameters:
+      - description: image info
+        in: body
+        name: image
+        required: true
+        schema:
+          $ref: '#/definitions/core.Image'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: 推送镜像
+      tags:
+      - image
+swagger: "2.0"
