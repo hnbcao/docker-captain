@@ -62,7 +62,7 @@ func main() {
 			Name:   "appPort",
 			Usage:  "appPort",
 			EnvVar: "APP_PORT",
-			Value:  8080,
+			Value:  8081,
 		},
 	}
 	if err := app.Run(os.Args); err != nil {
@@ -107,8 +107,10 @@ func run(c *cli.Context) error {
 func buildRegistryAuth() map[string]string {
 	registryAuth := map[string]string{
 		"hub.d.cisdigital.cn":       "eyJ1c2VybmFtZSI6ImFkbWluIiwicGFzc3dvcmQiOiJmT2NpQ1laNEVvbFUxdUhSIn0=",
+		"hub.cisdigital.cn":         "eyJ1c2VybmFtZSI6ImFkbWluIiwicGFzc3dvcmQiOiIzZm1lR0RPb3FkSTVEN1F6In0=",
 		"harbor.test.cisdigital.cn": "eyJ1c2VybmFtZSI6ImFkbWluIiwicGFzc3dvcmQiOiJjaXNkaWdpdGFsLTEyMzQ1In0=",
 		"harbor.dev.cisdigital.cn":  "eyJ1c2VybmFtZSI6ImFkbWluIiwicGFzc3dvcmQiOiJER0xhOHJoeXpDV25uRFFmIn0=",
+		"harbor.ng.cloud.nisco.cn":  "eyJ1c2VybmFtZSI6ImFkbWluIiwicGFzc3dvcmQiOiJIYXJib3IxMjM0NSJ9",
 	}
 	return registryAuth
 }

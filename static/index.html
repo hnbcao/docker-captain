@@ -59,7 +59,24 @@
     </style>
 </head>
 <body>
-<h3>WebSocket Go</h3>
+<h3>现场镜像推送</h3>
+<div>
+    现场镜像更新步骤：1、使用本工具推送镜像；2、更新release note，填写升级信息；3、联系相关人员更新镜像至现场。
+    <br>
+    "源镜像"填写本地仓库的镜像名，如：drone打包出来的镜像；"目标镜像"填写现场需要的镜像名，也就是在release note中升级项目填写的镜像。
+    <br>
+    drone打包的镜像名可以在finish中找到，如不存在该步骤，可以自行添加并重新打包，添加方式为在".drone.yaml"中的docker步骤最后添加以下代码：
+    <br>
+    - name: finish
+    <br>
+    &nbsp&nbsp image: hub.d.cisdigital.cn/library/alpine:3.9
+    <br>
+    &nbsp&nbsp commands:
+    <br>
+    &nbsp&nbsp - echo "==========打包完成，镜像名如下=========="
+    <br>
+    &nbsp&nbsp - echo "hub.d.cisdigital.cn/databench-dev/composer:$(cat .tags)"
+</div>
 <form id="form1" name="form" method="post" action="#">
     <br/>
     源镜像: <input type="text" name="source" id="source" size="200"><br/>

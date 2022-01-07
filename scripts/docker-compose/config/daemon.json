@@ -8,7 +8,9 @@
     "hub.d.cisdigital.cn",
     "harbor.demo.cisdigital.cn",
     "harbor.zt.cisdigital.cn",
-    "harbor.dev.cisdigital.cn"
+    "harbor.dev.cisdigital.cn",
+    "harbor.cisdigital.cn",
+    "harbor.ng.cloud.nisco.cn"
   ],
   "features": {
     "buildkit": true
